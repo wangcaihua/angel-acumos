@@ -5,7 +5,7 @@ import scopt.OptionParser
 object EnterPoint {
 
   def main(args: Array[String]): Unit = {
-    // --grpc_port 9876 --http_port 9875 --modelLoadPath E:\github\fitzwang\acumos\models\fm
+    // --grpc_port 9876 --http_port 9875 --modelLoadPath E:\github\fitzwang\angel-acumos\models\fm
     val parser = new OptionParser[Options]("EnterPoint") {
       opt[Int]("grpc_port")
         .text("Port to listen on for gRPC API")

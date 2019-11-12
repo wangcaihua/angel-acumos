@@ -9,7 +9,6 @@ import org.eclipse.jetty.servlet.ServletContextHandler.NO_SESSIONS
 import com.sun.jersey.spi.container.servlet.ServletContainer
 import org.slf4j.{Logger, LoggerFactory}
 
-
 class HttpServer(options: Options) {
   private val LOG: Logger = LoggerFactory.getLogger(classOf[HttpServer])
 

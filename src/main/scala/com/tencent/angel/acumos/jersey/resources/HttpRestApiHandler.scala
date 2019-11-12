@@ -46,13 +46,12 @@ class HttpRestApiHandler {
   }
 
 
-  // curl -H "Content-Type: application/json" -X POST localhost:9875/angel/acumos/getInfo
+  // curl -H "Content-Type: application/json" -X GET localhost:9875/angel/acumos/getInfo
 
-  @POST
+  @GET
   @Path("/angel/acumos/{method:getInfo}")
-  @Consumes(Array(MediaType.APPLICATION_JSON))
   @Produces(Array(MediaType.APPLICATION_JSON))
-  def processGetInfo(requestBody: String, @PathParam("method") method: String): Response = {
+  def processGetInfo(@PathParam("method") method: String): Response = {
     method.toLowerCase match {
       case "getinfo" =>
         val model = ServerModel.get()

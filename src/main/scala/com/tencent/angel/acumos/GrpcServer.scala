@@ -3,10 +3,8 @@ package com.tencent.angel.acumos
 
 import com.tencent.angel.acumos.DatasetProto.{DataFrame, Prediction}
 import com.tencent.angel.mlcore.PredictResult
-import io.grpc.{Server, ServerBuilder}
 import io.grpc.stub.StreamObserver
-
-
+import io.grpc.{Server, ServerBuilder}
 
 
 class GrpcServer(options: Options) extends ModelGrpc.ModelImplBase {
