@@ -10,6 +10,8 @@ FROM JAVA_DEV as JAVA_BUILDER
 
 WORKDIR /opt
 
+TAG mavenjdk/java:latest
+
 RUN git clone https://github.com/wangcaihua/angel-acumos.git
 RUN cd angel-acumos && mvn -e -B clean package -Dmaven.test.skip=true
 
@@ -17,6 +19,8 @@ RUN cd angel-acumos && mvn -e -B clean package -Dmaven.test.skip=true
 #                                                       Runtime                                                        #
 ########################################################################################################################
 FROM openjdk:8-jre as Runtime
+
+TAG runtime/jre:latest
 
 ENV ANGEL_ACUMOS=/opt/angel-acumos
 
