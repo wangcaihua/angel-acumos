@@ -8,32 +8,28 @@ FROM maven:3.6.1-jdk-8 as JAVA_DEV
 ########################################################################################################################
 FROM JAVA_DEV as JAVA_BUILDER
 
-WORKDIR /app
+WORKDIR /opt
 
-COPY ./pom.xml /app/
-
-RUN mvn -e -B dependency:resolve dependency:resolve-plugins
-
-COPY . /app/
-
-RUN mvn -e -B -Dmaven.test.skip=true package
+RUN git clone https://github.com/wangcaihua/angel-acumos.git
+RUN cd angel-acumos && mvn -e -B clean package -Dmaven.test.skip=true
 
 ########################################################################################################################
 #                                                       Runtime                                                        #
 ########################################################################################################################
 FROM openjdk:8-jre as Runtime
 
-ENV SERVING_HOME=/opt/angel-acumos
+ENV ANGEL_ACUMOS=/opt/angel-acumos
 
-COPY --from=JAVA_BUILDER /app/target/*.jar $SERVING_HOME
-COPY --from=JAVA_BUILDER /app/run.sh $SERVING_HOME
+COPY --from=JAVA_BUILDER /opt/angel-acumos/target/acumos-*-assembly.jar ANGEL_ACUMOS
+COPY --from=JAVA_BUILDER /opt/angel-acumos/run.sh ANGEL_ACUMOS
+COPY --from=JAVA_BUILDER /opt/angel-acumos/models ANGEL_ACUMOS/models
 
-WORKDIR $SERVING_HOME
+WORKDIR ANGEL_ACUMOS
 
-ENV PATH="$SERVING_HOME/bin:${PATH}" \
+ENV PATH="$ANGEL_ACUMOS:${PATH}" \
     GRPC_PORT=8500 \
-    REST_API_PORT=8501 \
-    MODEL_BASE_PATH=/models
+    HTTP_PORT=8501 \
+    MODEL_BASE_PATH=${ANGEL_ACUMOS}/models/fm
 
 EXPOSE 8500 8501
 
