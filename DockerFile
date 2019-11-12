@@ -1,0 +1,42 @@
+########################################################################################################################
+#                                                       JAVA DEV                                                        #
+########################################################################################################################
+FROM maven:3.6.1-jdk-8 as JAVA_DEV
+
+########################################################################################################################
+#                                                       JAVA BUILDER                                                       #
+########################################################################################################################
+FROM JAVA_DEV as JAVA_BUILDER
+
+WORKDIR /app
+
+COPY ./pom.xml /app/
+
+RUN mvn -e -B dependency:resolve dependency:resolve-plugins
+
+COPY . /app/
+
+RUN mvn -e -B -Dmaven.test.skip=true package
+
+########################################################################################################################
+#                                                       Runtime                                                        #
+########################################################################################################################
+FROM openjdk:8-jre as Runtime
+
+ENV SERVING_HOME=/opt/angel-acumos
+
+COPY --from=JAVA_BUILDER /app/target/*.jar $SERVING_HOME
+COPY --from=JAVA_BUILDER /app/run.sh $SERVING_HOME
+
+WORKDIR $SERVING_HOME
+
+ENV PATH="$SERVING_HOME/bin:${PATH}" \
+    GRPC_PORT=8500 \
+    REST_API_PORT=8501 \
+    MODEL_BASE_PATH=/models
+
+EXPOSE 8500 8501
+
+VOLUME /models
+
+CMD [ "/bin/sh", "./run.sh" ]

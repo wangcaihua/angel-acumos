@@ -1,0 +1,62 @@
+syntax = "proto3";
+option java_package = "com.tencent.angel.acumos";
+option java_outer_classname = "DatasetProto";
+
+
+message ifKVRow {
+    string id = 1;
+    int32 dim = 2;
+    map<int32, float> features = 3;
+}
+
+message idKVRow {
+    string id = 1;
+    int32 dim = 2;
+    map<int32, double> features = 3;
+}
+
+message lfKVRow {
+    string id = 1;
+    int64 dim = 2;
+    map<int64, float> features = 3;
+}
+
+message ldKVRow {
+    string id = 1;
+    int64 dim = 2;
+    map<int64, double> features = 3;
+}
+
+message fArrayRow {
+    string id = 1;
+    repeated float features = 2;
+}
+
+message dArrayRow {
+    string id = 1;
+    repeated double features = 2;
+}
+
+message DataFrameRow {
+    oneof row {
+        ifKVRow ifkv = 1;
+        idKVRow idkv = 2;
+        lfKVRow lfkv = 3;
+        ldKVRow ldkv = 4;
+        fArrayRow farr = 5;
+        dArrayRow darr = 6;
+    }
+}
+
+message DataFrame {
+    repeated DataFrameRow rows = 1;
+}
+
+message Prediction {
+    float threshold = 1;
+    map<string, float> id2prediction = 2;
+}
+
+service Model {
+    rpc classify (DataFrame) returns (Prediction);
+}

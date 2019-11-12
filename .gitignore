@@ -1,2 +1,16 @@
 *.class
 *.log
+
+.idea
+.idea/*
+*.iml
+
+target
+target/*
+
+models/application.properties
+models/core-io-1.7.7.jar
+models/GenericModelService.jar
+models/java-client-2.7.7.jar
+models/license.json
+models/modelConfig.properties
