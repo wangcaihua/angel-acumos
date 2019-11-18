@@ -225,4 +225,18 @@ object Utils {
 
     rowBuilder.build()
   }
+
+  @throws[Exception]
+  def dataFrame[T: ClassTag](id: String, data: Array[T]): DataFrame = {
+    val builder = DataFrame.newBuilder()
+    builder.addRows(dataFrameRow(id, data))
+    builder.build()
+  }
+
+  @throws[Exception]
+  def dataFrame[K: ClassTag, V: ClassTag](id: String, dim: K, dataMap: Map[K, V]): DataFrame = {
+    val builder = DataFrame.newBuilder()
+    builder.addRows(dataFrameRow(id, dim, dataMap))
+    builder.build()
+  }
 }

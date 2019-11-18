@@ -1,0 +1,8 @@
+version: "3.6"
+
+services:
+  app:
+    command: cat
+    stdin_open: true
+    tty: true
+

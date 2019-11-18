@@ -24,5 +24,18 @@
             <outputDirectory>/</outputDirectory>
             <directory>${project.build.outputDirectory}</directory>
         </fileSet>
+
+        <!--fileSet>
+            <directory>../target</directory>
+            <outputDirectory>lib</outputDirectory>
+            <includes>
+                <include>*-assembly.jar</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
+            <directory>../models</directory>
+            <outputDirectory>models</outputDirectory>
+        </fileSet-->
     </fileSets>
 </assembly>
